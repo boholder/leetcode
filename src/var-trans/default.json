@@ -1,0 +1,7 @@
+{
+  "regexp": {
+    "lowerWord": "^[a-z]+\\d*",
+    "firstUpperWord": "[A-Z][a-z]*\\d*",
+    "invalidNamingCase": "(^[^a-zA-Z]|[^\\w\\d-]|[a-z]+[A-Z]{3,}[\\da-z]+)"
+  }
+}

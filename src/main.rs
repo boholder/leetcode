@@ -14,7 +14,8 @@ mod hr {
         let dept1 = "Engineering";
         let steve = "Steve";
         company.add(&concat_decision(dept1, steve));
-        println!("{:?}", company.get_department_employees(dept1).unwrap());
+        let employees = company.get_department_employees(dept1).unwrap();
+        println!("{:?}", employees);
     }
 
     fn concat_decision(department: &str, employee: &str) -> String {
@@ -33,9 +34,10 @@ mod hr {
         fn add(&mut self, decision: &str) {
             let re = Regex::new(r"Add\s([[:alpha:]]+)\sto\s([[:alpha:]]+)").unwrap();
             let matches = re.captures(decision).unwrap();
-            let department = matches.get(1).unwrap().as_str().into_string();
+            let employee = matches.get(0).unwrap().as_str().to_string();
+            let department = matches.get(1).unwrap().as_str().to_string();
             let department = self.employees.entry(department).or_insert(Vec::new());
-            *department.push(matches.get(0).unwrap().as_str().into_string());
+            department.push(employee);
         }
 
         fn get_department_employees(&self, department_name: &str) -> Option<&Vec<String>> {

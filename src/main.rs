@@ -6,7 +6,6 @@ fn main() {
 
 mod hr {
     use std::collections::HashMap;
-
     use regex::Regex;
 
     pub(crate) fn run() {
@@ -34,8 +33,8 @@ mod hr {
         fn add(&mut self, decision: &str) {
             let re = Regex::new(r"Add\s([[:alpha:]]+)\sto\s([[:alpha:]]+)").unwrap();
             let matches = re.captures(decision).unwrap();
-            let employee = matches.get(0).unwrap().as_str().to_string();
-            let department = matches.get(1).unwrap().as_str().to_string();
+            let employee = matches.get(1).unwrap().as_str().to_string();
+            let department = matches.get(2).unwrap().as_str().to_string();
             let department = self.employees.entry(department).or_insert(Vec::new());
             department.push(employee);
         }

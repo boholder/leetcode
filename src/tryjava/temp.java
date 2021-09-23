@@ -1,11 +1,12 @@
 package tryjava;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class temp {
     public static void main(String[] args) {
-        try {
-            throw new Exception("info",new Exception("inner"));
-        } catch (Throwable e) {
-            System.out.println(e.getCause());
-        }
+        Pattern p = Pattern.compile("(?<=:)[0-9]+");
+        Matcher matcher = p.matcher("21.33.214.144:12345");
+        System.out.println(matcher);
     }
 }

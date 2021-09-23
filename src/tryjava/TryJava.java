@@ -1,18 +1,13 @@
 package tryjava;
 
-import joptsimple.internal.Strings;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TryJava {
     public static void main(String[] args) {
-        Map<String, String> map = new HashMap<>();
-        map.put("a", null);
-        map.put("b", "1");
-        map.put("c", null);
-        map.values().removeIf(v -> Strings.isNullOrEmpty(v));
-        System.out.println(map);
+        Pattern p = Pattern.compile("(?<=[0-9]:)[0-9]+");
+        Matcher matcher = p.matcher("21.33.214.144:52180");
+        System.out.println(matcher.find());
+        System.out.println(p.matcher("21.33.214.144:52180").group());
     }
 }

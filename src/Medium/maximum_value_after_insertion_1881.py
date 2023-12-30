@@ -15,53 +15,61 @@ class Solution:
 
     def maxValue(self, n: str, x: int) -> str:
         negative: bool = False
-        head = 0
-
         if n[0] == '-':
             negative = True
-            head = 1
+            n = n[1:]
 
-        # 正数从左到右，找左边大于x右边小于x的位置，负数相反。
+        # 正数从左到右，找左边大于x右边小于x的位置
+        head = 0
         while head < len(n):
-            r = self.compare(n[head], x)
+            r = self.compare(x, n[head])
             if negative:
                 r = -r
 
-            if r == 1:
+            if r == -1:
                 head += 1
             else:
                 break
 
-        return n[:head] + str(x) + n[head:]
+        num = n[:head] + str(x) + n[head:]
+        if negative:
+            num = '-' + num
+        return num
 
-    def compare(self, a: str, b: int) -> int:
+    @staticmethod
+    def compare(a: int, b: str) -> int:
         """
         ascii "0" = 48(dec)
         https://www.ascii-code.com/
 
-        :param a: 单个字符，1-9
-        :param b: 一位数字，1-9
+        :param a: 一位数字，1-9
+        :param b: 单个字符，1-9
         :return: -1 0 1
         """
-        int_a = ord(a)
-        ascii_b = b + 48
+        ascii_a = a + 48
+        ascii_b = ord(b)
 
-        if int_a < ascii_b:
+        if ascii_a < ascii_b:
             return -1
-        elif int_a > ascii_b:
+        elif ascii_a > ascii_b:
             return 1
         else:
             return 0
 
 
 def test_0():
-    assert Solution().compare("1", 2) == -1
-    assert Solution().compare("2", 1) == 1
-    assert Solution().compare("1", 1) == 0
+    assert Solution.compare(1, "2", ) == -1
+    assert Solution.compare(2, "1") == 1
+    assert Solution.compare(1, "1") == 0
+
+
+def test_11():
+    assert Solution().maxValue("13", 2) == "213"
 
 
 def test_1():
     assert Solution().maxValue("-13", 2) == "-123"
+
 
 def test_2():
     assert Solution().maxValue("-132", 3) == "-1323"

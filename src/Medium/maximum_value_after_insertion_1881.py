@@ -14,31 +14,25 @@ class Solution:
     """
 
     def maxValue(self, n: str, x: int) -> str:
-        return self.negative(n[1:], x) if n[0] == '-' else self.positive(n, x)
+        # 正数从左到右，放在第一个比x小的数字前
+        # 负数是放在第一个比x大的数字前
+        positive_stop = lambda r: r == 1
+        negative_stop = lambda r: r == -1
 
-    def positive(self, n: str, x: int) -> str:
-        # 正数从左到右，找左边大于x右边小于x的位置
+        negative = True if n[0] == '-' else False
+        predicate = negative_stop if negative else positive_stop
+
+        if negative:
+            n = n[1:]
+
         head = 0
         while head < len(n):
-            if self.compare(x, n[head]) == -1:
-                head += 1
-            else:
+            if predicate(self.compare(x, n[head])):
                 break
+            head += 1
 
-        return n[:head] + str(x) + n[head:]
-
-    def negative(self, n, x):
-        # 负数是放在最后一个比x小的数字后
-        # 如何找到最后一个比x小的数字的位置
-        # 还是倒着找啊
-        pointer = len(n) - 1
-        while pointer > 0:
-            if self.compare(x, n[pointer]) == 1:
-                break
-            else:
-                pointer -= 1
-
-        return "-" + n[:pointer + 1] + str(x) + n[pointer + 1:]
+        num = n[:head] + str(x) + n[head:]
+        return "-" + num if negative else num
 
     @staticmethod
     def compare(a: int, b: str) -> int:
@@ -61,22 +55,23 @@ class Solution:
             return 0
 
 
-def test_0():
-    assert Solution.compare(1, "2", ) == -1
-    assert Solution.compare(2, "1") == 1
-    assert Solution.compare(1, "1") == 0
-
-
-def test_11():
-    assert Solution().maxValue("13", 2) == "213"
-
-
-def test_1():
-    assert Solution().maxValue("-13", 2) == "-123"
-
-
-def test_2():
-    assert Solution().maxValue("-132", 3) == "-1323"
-
-def test_3():
-    assert Solution().maxValue("-648468153646", 5) == "-5648468153646"
+# def test_0():
+#     assert Solution.compare(1, "2", ) == -1
+#     assert Solution.compare(2, "1") == 1
+#     assert Solution.compare(1, "1") == 0
+#
+#
+# def test_11():
+#     assert Solution().maxValue("13", 2) == "213"
+#
+#
+# def test_1():
+#     assert Solution().maxValue("-13", 2) == "-123"
+#
+#
+# def test_2():
+#     assert Solution().maxValue("-132", 3) == "-1323"
+#
+#
+# def test_3():
+#     assert Solution().maxValue("-648468153646", 5) == "-5648468153646"

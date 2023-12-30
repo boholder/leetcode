@@ -14,27 +14,22 @@ class Solution:
     """
 
     def maxValue(self, n: str, x: int) -> str:
-        negative: bool = False
-        if n[0] == '-':
-            negative = True
-            n = n[1:]
+        return self.negative(n[1:], x) if n[0] == '-' else self.positive(n, x)
 
+    def positive(self, n: str, x: int) -> str:
         # 正数从左到右，找左边大于x右边小于x的位置
         head = 0
         while head < len(n):
             r = self.compare(x, n[head])
-            if negative:
-                r = -r
-
             if r == -1:
                 head += 1
             else:
                 break
 
-        num = n[:head] + str(x) + n[head:]
-        if negative:
-            num = '-' + num
-        return num
+        return n[:head] + str(x) + n[head:]
+
+    def negative(self, n, x):
+        return "-" + ""
 
     @staticmethod
     def compare(a: int, b: str) -> int:

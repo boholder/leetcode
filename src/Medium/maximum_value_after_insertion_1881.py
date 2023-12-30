@@ -20,8 +20,7 @@ class Solution:
         # 正数从左到右，找左边大于x右边小于x的位置
         head = 0
         while head < len(n):
-            r = self.compare(x, n[head])
-            if r == -1:
+            if self.compare(x, n[head]) == -1:
                 head += 1
             else:
                 break
@@ -29,7 +28,17 @@ class Solution:
         return n[:head] + str(x) + n[head:]
 
     def negative(self, n, x):
-        return "-" + ""
+        # 负数是放在最后一个比x小的数字后
+        # 如何找到最后一个比x小的数字的位置
+        # 还是倒着找啊
+        pointer = len(n) - 1
+        while pointer > 0:
+            if self.compare(x, n[pointer]) == 1:
+                break
+            else:
+                pointer -= 1
+
+        return "-" + n[:pointer + 1] + str(x) + n[pointer + 1:]
 
     @staticmethod
     def compare(a: int, b: str) -> int:
@@ -68,3 +77,6 @@ def test_1():
 
 def test_2():
     assert Solution().maxValue("-132", 3) == "-1323"
+
+def test_3():
+    assert Solution().maxValue("-648468153646", 5) == "-5648468153646"
